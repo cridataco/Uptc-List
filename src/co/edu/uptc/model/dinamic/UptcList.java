@@ -1,6 +1,6 @@
-package co.edu.uptc.test.listupc.model;
+package co.edu.uptc.model.dinamic;
 
-import co.edu.uptc.test.listupc.pojos.Node;
+import co.edu.uptc.pojos.Node;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -15,19 +15,22 @@ public class UptcList implements List {
         head = null;
         size = 0;
     }
-
     public boolean isHeadNull(){
         return (head == null);
     }
 
     @Override
     public void add(int index, Object element) {
-            if(isHeadNull()){
-                head = new Node(element);
-            }else{
-              getNode(index).setNext(new Node(element));
-            }
-              size ++;
+        Node node = new Node(element);
+
+        if(index== 0){
+            node.setNext(head);
+            head = node;
+        }else{
+            Node tmp = getNode(index-1);
+            node.setNext(tmp.getNext());
+            tmp.setNext(node);
+        }
     }
 
     @Override
@@ -105,11 +108,20 @@ public class UptcList implements List {
 
     @Override
     public Object set(int index, Object element) {
+        Node tmp = getNode(index);
+
         return null;
     }
 
     @Override
     public Object remove(int index) {
+        if(index<0){
+            return "Pon un numero positivo";
+        }
+        if (index==0) head = getNode(index + 1);
+        else if (index == size) getNode(size-2).setNext(null);
+        else getNode(index-1).setNext(getNode(index+1));
+        size = size();
         return null;
     }
 

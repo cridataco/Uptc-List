@@ -1,0 +1,17 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="prueba1">
+    <output-path>$USER_HOME$/Descargas</output-path>
+    <properties id="ant-postprocessing">
+      <options enabled="true" />
+    </properties>
+    <properties id="ant-preprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="archive" name="prueba1.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$USER_HOME$/Descargas/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="uptc list by me" />
+    </root>
+  </artifact>
+</component>

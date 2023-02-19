@@ -1,4 +1,4 @@
-package co.edu.uptc.test.listupc.pojos;
+package co.edu.uptc.pojos;
 
 public class Node {
     private Object value;
