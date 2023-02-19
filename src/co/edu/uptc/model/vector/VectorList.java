@@ -6,12 +6,10 @@ import java.util.*;
 
 public class VectorList implements List{
     Object vector[] = {};
-
     @Override
     public int size() {
         return vector.length;
     }
-
     @Override
     public int indexOf(Object o) {
         int index = -1;

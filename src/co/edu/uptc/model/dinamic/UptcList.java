@@ -57,19 +57,15 @@ public class UptcList implements List {
 
     @Override
     public boolean isEmpty() {
-        return false;
+        return (size == 0);
     }
 
     @Override
     public boolean contains(Object o) {
-        return false;
+        return (indexOf(o) != -1);
     }
 
-    @Override
-    public Iterator iterator() {
-        return null;
-    }
-
+    // A un por ver
     @Override
     public Object[] toArray() {
         return new Object[0];
@@ -88,51 +84,92 @@ public class UptcList implements List {
 
     @Override
     public boolean remove(Object o) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(Collection c) {
-        return false;
-    }
-
-    @Override
-    public boolean addAll(int index, Collection c) {
+        if (indexOf(o) != -1){
+            remove(indexOf(o));
+            return true;
+        }
         return false;
     }
 
     @Override
     public void clear() {
-
+        head = null;
     }
 
     @Override
     public Object set(int index, Object element) {
-        Node tmp = getNode(index);
-
+        if(index == 0){
+            head.setValue(element);
+        }else{
+            Node tmp = getNode(index-1);
+            tmp.getNext().setValue(element);
+        }
         return null;
     }
 
     @Override
     public Object remove(int index) {
-        if(index<0){
-            return "Pon un numero positivo";
+        Node aux = head;
+        if(index == 0){
+            head = head.getNext();
+        }else {
+            Node tmp = getNode(index - 1);
+            aux = tmp.getNext();
+            if (aux.getNext() != null) {
+                tmp.setNext(aux.getNext());
+            } else {
+                tmp.setNext(null);
+            }
         }
-        if (index==0) head = getNode(index + 1);
-        else if (index == size) getNode(size-2).setNext(null);
-        else getNode(index-1).setNext(getNode(index+1));
-        size = size();
-        return null;
+        size--;
+        return aux.getValue();
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        int index = -1;
+        Node tmp = head;
+        for (int i = 0; i < size; i++) {
+            if(tmp.getValue() == o){
+                index = i;
+                break;
+            }
+            tmp = tmp.getNext();
+        }
+        return index;
+    }
+
+    @Override
+    public List subList(int fromIndex, int toIndex) {
+        List list = new UptcList();
+        for (int i = fromIndex; i <toIndex ; i++) {
+            list.add(get(i));
+        }
+        return list;
+    }
+
+    @Override
+    public Object[] toArray(Object[] a) {
+        return new Object[0];
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        int index = -1;
+        Node tmp = head;
+        for (int i = 0; i < size; i++) {
+            if(tmp.getValue() == o){
+                index = i;
+            }
+            tmp = tmp.getNext();
+        }
+        return index;
+    }
+
+    @Override
+    public Iterator iterator() {
+
+        return null;
     }
 
     @Override
@@ -146,8 +183,13 @@ public class UptcList implements List {
     }
 
     @Override
-    public List subList(int fromIndex, int toIndex) {
-        return null;
+    public boolean addAll(Collection c) {
+        return false;
+    }
+
+    @Override
+    public boolean addAll(int index, Collection c) {
+        return false;
     }
 
     @Override
@@ -163,10 +205,5 @@ public class UptcList implements List {
     @Override
     public boolean containsAll(Collection c) {
         return false;
-    }
-
-    @Override
-    public Object[] toArray(Object[] a) {
-        return new Object[0];
     }
 }
