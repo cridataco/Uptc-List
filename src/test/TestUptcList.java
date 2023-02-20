@@ -3,6 +3,7 @@ package test;
 import co.edu.uptc.model.dinamic.UptcList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class TestUptcList {
@@ -24,7 +25,26 @@ public class TestUptcList {
         list.add("10");
 
         System.out.println("last index of a = " + list.lastIndexOf(a));
-
-        System.out.println("el tamaño de la lista es de:" +  list.size());
+        System.out.println("el tamaño de la lista es de:" +  list.size() + "\n");
+        
+        list.addAll(addCollection());
+      //  list.addAll(2, addCollection());
+        mostrarTodaLaLista(list);
     }
+    
+    public static void mostrarTodaLaLista(List uptcList) {
+		for (int i = 0; i < uptcList.size(); i++) {
+			System.out.println("Posicion " + i + " -- " + uptcList.get(i));
+		}
+		System.out.println("\nElementos: " + uptcList.size() + "\n");
+	}
+    
+    public static Collection addCollection() {
+    	List<Object> collections = new ArrayList<Object>();
+    	collections.add("Desayuna con huevo");
+    	collections.add("Ciervo");
+    	collections.add("Cigarro");
+    	collections.add("Deer Dance");
+		return collections;
+	}
 }
