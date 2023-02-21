@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
 
 public class UptcList implements List {
 	private Node head;
@@ -99,6 +100,7 @@ public class UptcList implements List {
 	@Override
 	public void clear() {
 		head = null;
+		size = 0;
 	}
 
 	@Override
@@ -252,10 +254,10 @@ public class UptcList implements List {
 
 	@Override
 	public boolean addAll(Collection c) {
-		Object[] temp = c.toArray();
-		for (int i = 0; i < temp.length; i++) {
-			add(temp[i]);
-		}
+		for (Object object : c) {
+			add(object);
+		}	
+		
 		return false;
 	}
 
@@ -263,21 +265,30 @@ public class UptcList implements List {
 	public boolean addAll(int index, Collection c) {
 		Node aux = head;
 		Node tempNode;
+		boolean isAdd = false;
 		if (index == 0) {
 			tempNode = aux;
-			size = 0;
+			int tempSize = size;
 			clear();
 			addAll(c);
-			add(tempNode);
-		} else {
-			aux = getNode(index);
-			tempNode = aux.getNext();
-			aux.setNext(null);
-			size = index;
-			addAll(c);
-			add(tempNode);
+			Node tmp = head;
+			while(tmp.getNext() != null) {
+				tmp = tmp.getNext();
+			}
+			tmp.setNext(tempNode);
+			size += tempSize;
+			isAdd = true;
+			System.out.println("Fin");
 		}
-		return false;
+//		} else {
+//			aux = getNode(index);
+//			tempNode = aux.getNext();
+//			aux.setNext(null);
+//			size = index;
+//			addAll(c);
+//			add(tempNode);
+//		}
+		return isAdd;
 	}
 
 	@Override
@@ -295,15 +306,31 @@ public class UptcList implements List {
 					count++;
 				}
 			}
-			if (contains == false)
+			if (contains == false) {
 				aux = aux.getNext();
 				remove(count);
+				if(i != 0)
+					i -= 1;
+			}
 		}
 		return false;
+		//TODO recisar el size retainAll
 	}
 
 	@Override
 	public boolean removeAll(Collection c) {
+		Object[] temp = c.toArray();
+		Node aux = head;
+		int count = 0;
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < temp.length; j++) {
+				if (aux.getValue() == temp[j] || aux.getValue().equals(temp[j])) {
+					remove(i);
+					if(i != 0)
+						i -= 1;
+				}
+			}
+		}
 		return false;
 	}
 
