@@ -28,7 +28,9 @@ public class TestUptcList {
         System.out.println("el tamaño de la lista es de:" +  list.size() + "\n");
         
         list.addAll(addCollection());
-      //  list.addAll(2, addCollection());
+       // list.addAll(2, addCollection());
+        mostrarTodaLaLista(list);
+        list.retainAll(retrainAll());
         mostrarTodaLaLista(list);
     }
     
@@ -45,6 +47,13 @@ public class TestUptcList {
     	collections.add("Ciervo");
     	collections.add("Cigarro");
     	collections.add("Deer Dance");
+		return collections;
+	}
+    
+    public static Collection retrainAll() {
+    	List<Object> collections = new ArrayList<Object>();
+    	collections.add("Desayuna con huevo");
+    	collections.add("Ciervo");
 		return collections;
 	}
 }

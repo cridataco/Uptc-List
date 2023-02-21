@@ -78,9 +78,6 @@ public class UptcList implements List {
 
 	@Override
 	public boolean add(Object element) {
-		if(element == Node.class) {
-			getNode(size - 1).setNext((Node)element);
-		}
 		if (isHeadNull()) {
 			head = new Node(element);
 		} else {
@@ -175,20 +172,83 @@ public class UptcList implements List {
 	}
 
 	@Override
-	public Iterator iterator() {
+    public Iterator iterator() {
+        Iterator iterator = new Iterator() {
+            private int index = 0;
 
-		return null;
-	}
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
 
-	@Override
-	public ListIterator listIterator() {
-		return null;
-	}
+            @Override
+            public Object next() {
+                return getNode(index++).getValue();
+            }
+        };
+        return iterator;
+    }
 
-	@Override
-	public ListIterator listIterator(int index) {
-		return null;
-	}
+    @Override
+    public ListIterator listIterator() {
+        return listIterator(0);
+    }
+
+    @Override
+    public ListIterator listIterator(int index) {
+        return new ListIterator() {
+            private int i = index;
+
+            @Override
+            public boolean hasNext() {
+                return getNode(i+1) == null;
+            }
+
+            @Override
+            public Object next() {
+                return getNode(i++).getValue();
+            }
+
+            @Override
+            public boolean hasPrevious() {
+                if (i == 0) return false;
+                return getNode(i - 1) == null;
+            }
+
+            @Override
+            public Object previous() {
+                if (i == 0) throw new NoSuchElementException("No previous element");
+                return getNode(--i).getValue();
+            }
+
+            @Override
+            public int nextIndex() {
+                return i+1;
+            }
+
+            @Override
+            public int previousIndex() {
+                return i - 1;
+            }
+
+            @Override
+            public void remove() {
+                if (i > 0) UptcList.this.remove(--i);
+                else if (i == 0) UptcList.this.remove(i);
+            }
+
+            @Override
+            public void set(Object o) {
+                UptcList.this.set(i, o);
+            }
+
+            @Override
+            public void add(Object o) {
+                UptcList.this.add(i++, o);
+            }
+        };
+    }
+
 
 	@Override
 	public boolean addAll(Collection c) {
@@ -201,7 +261,6 @@ public class UptcList implements List {
 
 	@Override
 	public boolean addAll(int index, Collection c) {
-		Object[] temp = c.toArray();
 		Node aux = head;
 		Node tempNode;
 		if (index == 0) {
@@ -223,6 +282,23 @@ public class UptcList implements List {
 
 	@Override
 	public boolean retainAll(Collection c) {
+		Object[] temp = c.toArray();
+		Node aux = head;
+		boolean contains;
+		int count = 0;
+		for (int i = 0; i < size; i++) {
+			contains = false;
+			for (int j = 0; j < temp.length; j++) {
+				if (aux.getValue() == temp[j] || aux.getValue().equals(temp[j])) {
+					aux = aux.getNext();
+					contains = true;
+					count++;
+				}
+			}
+			if (contains == false)
+				aux = aux.getNext();
+				remove(count);
+		}
 		return false;
 	}
 
