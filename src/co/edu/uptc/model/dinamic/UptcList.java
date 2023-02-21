@@ -265,10 +265,10 @@ public class UptcList implements List {
 	public boolean addAll(int index, Collection c) {
 		Node aux = head;
 		Node tempNode;
+		int tempSize = size;
 		boolean isAdd = false;
 		if (index == 0) {
 			tempNode = aux;
-			int tempSize = size;
 			clear();
 			addAll(c);
 			Node tmp = head;
@@ -278,16 +278,20 @@ public class UptcList implements List {
 			tmp.setNext(tempNode);
 			size += tempSize;
 			isAdd = true;
-			System.out.println("Fin");
+		} else {
+			aux = getNode(index);
+			tempNode = aux.getNext();
+			aux.setNext(null);
+			size = index;
+			addAll(c);
+			Node tmp = head;
+			while(tmp.getNext() != null) {
+				tmp = tmp.getNext();
+			}
+			tmp.setNext(tempNode);
+			size += tempSize;
+			isAdd = true;
 		}
-//		} else {
-//			aux = getNode(index);
-//			tempNode = aux.getNext();
-//			aux.setNext(null);
-//			size = index;
-//			addAll(c);
-//			add(tempNode);
-//		}
 		return isAdd;
 	}
 
