@@ -251,7 +251,6 @@ public class UptcList implements List {
         };
     }
 
-
 	@Override
 	public boolean addAll(Collection c) {
 		for (Object object : c) {
@@ -272,20 +271,21 @@ public class UptcList implements List {
 			clear();
 			addAll(c);
 			Node tmp = head;
-			while(tmp.getNext() != null) {
+			while (tmp.getNext() != null) {
 				tmp = tmp.getNext();
 			}
 			tmp.setNext(tempNode);
 			size += tempSize;
 			isAdd = true;
 		} else {
-			aux = getNode(index);
+			aux = getNode(index - 1);
 			tempNode = aux.getNext();
 			aux.setNext(null);
+			tempSize = size - (index);
 			size = index;
 			addAll(c);
 			Node tmp = head;
-			while(tmp.getNext() != null) {
+			while (tmp.getNext() != null) {
 				tmp = tmp.getNext();
 			}
 			tmp.setNext(tempNode);
@@ -301,10 +301,10 @@ public class UptcList implements List {
 		Node aux = head;
 		boolean contains;
 		int count = 0;
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i <= size; i++) {
 			contains = false;
 			for (int j = 0; j < temp.length; j++) {
-				if (aux.getValue() == temp[j] || aux.getValue().equals(temp[j])) {
+				if (aux.equals(temp[j])) {
 					aux = aux.getNext();
 					contains = true;
 					count++;
@@ -313,24 +313,23 @@ public class UptcList implements List {
 			if (contains == false) {
 				aux = aux.getNext();
 				remove(count);
-				if(i != 0)
+				if (i != 0)
 					i -= 1;
 			}
 		}
 		return false;
-		//TODO recisar el size retainAll
+		// TODO recisar el size retainAll
 	}
 
 	@Override
 	public boolean removeAll(Collection c) {
 		Object[] temp = c.toArray();
 		Node aux = head;
-		int count = 0;
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < temp.length; j++) {
-				if (aux.getValue() == temp[j] || aux.getValue().equals(temp[j])) {
+				if (aux.equals(temp[j])) {
 					remove(i);
-					if(i != 0)
+					if (i != 0)
 						i -= 1;
 				}
 			}
@@ -340,6 +339,18 @@ public class UptcList implements List {
 
 	@Override
 	public boolean containsAll(Collection c) {
-		return false;
+		Object[] temp = c.toArray();
+		Node aux = head;
+		boolean contain = true;
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < temp.length && contain == true; j++) {
+				if (aux.equals(temp[j])) {
+					contain = true;
+				} else {
+					contain = false;
+				}
+			}
+		}
+		return contain;
 	}
 }
