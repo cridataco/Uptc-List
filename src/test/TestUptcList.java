@@ -25,14 +25,16 @@ public class TestUptcList {
 		list.add("10");
 
 		System.out.println("last index of a = " + list.lastIndexOf(a));
-		System.out.println("el tamaño de la lista es de:" + list.size() + "\n");
+		System.out.println("el tamaÃ±o de la lista es de:" + list.size() + "\n");
 
-		// list.addAll(addCollection());
+//		list.addAll(addCollection());
+//		list.addAll(0, addCollection());
+		
 		mostrarTodaLaLista("titulo", list);
-		list.addAll(0, addCollection());
-		// mostrarTodaLaLista(list);
-//      list.retainAll(retrainAll());
-//      list.removeAll(removeAll());
+//		list.retainAll(retrainAll());
+		
+		
+		list.removeAll(removeAll());
 		mostrarTodaLaLista("Titulo", list);
 	}
 
