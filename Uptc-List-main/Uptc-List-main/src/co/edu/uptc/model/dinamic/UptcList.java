@@ -286,11 +286,13 @@ public class UptcList implements List {
 
 	@Override
 	public boolean addAll(Collection c) {
+		boolean isAdd = false;
 		for (Object object : c) {
-			add(object);
+			boolean isAddTwo = false;
+			isAddTwo = add(object);
+			isAdd = isAddTwo ? true : isAdd;
 		}
-
-		return false;
+		return isAdd;
 	}
 
 	@Override
