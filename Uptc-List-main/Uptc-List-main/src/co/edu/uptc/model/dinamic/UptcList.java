@@ -4,7 +4,7 @@ import co.edu.uptc.pojos.Node;
 
 import java.util.*;
 
-public class UptcList implements List {
+public class UptcList <L> implements List {
     private Node head;
     private int size;
 
@@ -98,13 +98,17 @@ public class UptcList implements List {
 
     @Override
     public boolean add(Object element) {
+    	boolean isAdd = false;
         if(isHeadNull()){
             head = new Node(element);
+            size ++;
+            isAdd = true;
         }else{
             getNode(size-1).setNext(new Node(element));
+            size ++;
+            isAdd = true;
         }
-        size ++;
-        return false;
+        return isAdd;
     }
 
     @Override
@@ -286,9 +290,10 @@ public class UptcList implements List {
 
 	@Override
 	public boolean addAll(Collection c) {
+		if(c == null) throw new NullPointerException();
 		boolean isAdd = false;
+		boolean isAddTwo = false;
 		for (Object object : c) {
-			boolean isAddTwo = false;
 			isAddTwo = add(object);
 			isAdd = isAddTwo ? true : isAdd;
 		}
@@ -297,6 +302,7 @@ public class UptcList implements List {
 
 	@Override
 	public boolean addAll(int index, Collection c) {
+		if(c == null) throw new NullPointerException();
 		Node aux = head;
 		Node tempNode;
 		int tempSize = size;
@@ -331,23 +337,18 @@ public class UptcList implements List {
 	}
 
 	@Override
-	public boolean retainAll(Collection c) {
-		boolean flag = false;
-		Object tmp= null;
-		List listAux = new UptcList();
-		for (Object object : c) {
-			tmp = retainAllWith(object);
-			if(tmp != null) {
-				listAux.add(object);
-			}
+    public boolean retainAll(Collection c) {
+        if (c == null) throw new NullPointerException("Collection is null");
+        if (c.size() == 0) return false;
+        boolean changed = false;
+        for (int i = 0; i < size(); i++) {
+        	if (!c.contains(get(i))) {
+                remove(i);
+                changed = true;
+            }
 		}
-		if(listAux.size() != 0) {
-			clear();
-			addAll(listAux);
-			return flag = true;
-		} else {
-			return flag = false;
-		}
+        return changed;
+    }
 //		Object[] temp = c.toArray();
 //		Node aux = head;
 //		boolean contains;
@@ -369,7 +370,7 @@ public class UptcList implements List {
 //			}
 //		}
 		// TODO recisar el size retainAll
-	}
+	
 	
 	private Object retainAllWith(Object object) {
 		Object isFounded = null;
